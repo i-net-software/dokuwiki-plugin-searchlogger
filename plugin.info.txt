@@ -1,0 +1,9 @@
+# General Plugin Info do not edit
+
+base   searchlogger
+author i-net software
+email  tools@inetsoftware.de
+date   2010-12-15
+name   Search Logger
+desc   Logs search queries anonymously into a database using the databaseconnector plugin
+url    http://www.inetsoftware.de/other-products/dokuwiki-plugins/search-logger
