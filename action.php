@@ -76,23 +76,6 @@ class action_plugin_searchlogger extends DokuWiki_Action_Plugin {
 		
 		return true;
 	}
-/*
-	function tpl_searchform() {
-		global $lang;
-		global $ACT;
-	
-		// don't print the search form if search action has been disabled
-		if (!actionOk('search')) return false;
-		@require_once(DOKU_INC . 'inc/form.php');
-		$form = new Doku_Form('searchlogger__search', wl(), 'post');
-		$form->addElement(form_makeOpenTag('div'));
-		$form->addElement(form_makeField('text', 'id', ($ACT=='search'?$_REQUEST['id']:''), $lang['btn_search'] . ':', '', '', array('class'=>'edit')));
-		$form->addElement(form_makeButton('submit', 'search', $lang['btn_search'], array('class'=>'button', 'title'=>$lang['btn_search'])));
-		$form->addElement(form_makeCloseTag('div'));
-		
-		$form->printForm();
-	}
-*/
 }
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :
