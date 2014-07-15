@@ -19,7 +19,7 @@ class action_plugin_searchlogger extends DokuWiki_Action_Plugin {
 	var $hasToIndex = false;
 	var $didAlreadyLog = false;
 
-	function register(&$controller) {
+	function register(Doku_Event_Handler $controller) {
 
 		// Log Query
 		$controller->register_hook('SEARCH_QUERY_FULLPAGE', 'AFTER', $this, 'searchlogger__log');

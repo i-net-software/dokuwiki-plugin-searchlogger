@@ -25,7 +25,7 @@ class syntax_plugin_searchlogger_mostwanted extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern('~~MOSTWANTED:\d*~~', $mode, 'plugin_searchlogger_mostwanted');
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
 		global $ID;
 		
 		$match = intval(substr($match, 13, -2)); // strip markup - Amount to show
@@ -36,7 +36,7 @@ class syntax_plugin_searchlogger_mostwanted extends DokuWiki_Syntax_Plugin {
 
 	}            
 
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         global $conf;
 		
 		list($amount) = $data;
