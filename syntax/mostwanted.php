@@ -15,7 +15,7 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_searchlogger_mostwanted extends DokuWiki_Syntax_Plugin {
 
-	var $functions = null;
+    private $functions = null;
 
     function getType() { return 'substition'; }
     function getPType() { return 'block'; }
@@ -26,44 +26,44 @@ class syntax_plugin_searchlogger_mostwanted extends DokuWiki_Syntax_Plugin {
     }
 
     function handle($match, $state, $pos, Doku_Handler $handler) {
-		global $ID;
-		
-		$match = intval(substr($match, 13, -2)); // strip markup - Amount to show
-		if ( !$this->functions =& plugin_load('helper', 'searchlogger') ) { return false; }
-		if ( !$this->functions->checkDatabase() ) { return false; }
-		
-		return array($match);
+        global $ID;
 
-	}            
+        $match = intval(substr($match, 13, -2)); // strip markup - Amount to show
+        if ( !$this->functions =& plugin_load('helper', 'searchlogger') ) { return false; }
+        if ( !$this->functions->checkDatabase() ) { return false; }
+
+        return array($match);
+
+    }            
 
     function render($mode, Doku_Renderer $renderer, $data) {
         global $conf;
-		
-		list($amount) = $data;
+
+        list($amount) = $data;
 
         if ($mode == 'xhtml') {
 
-			$renderer->nocache();
-			if ( empty($amount) ) $amount = 10;
-			
-			if ( !$this->functions =& plugin_load('helper', 'searchlogger') ) { return false; }
-			$this->functions->init_database();
-			$table = $this->functions->database->_escapeParameter($this->getConf('DBTableName'));
-			$this->functions->database->prepare("SELECT query, SUM(occurency) AS occurency, COUNT(ID) AS amount FROM `$table` WHERE NOT query='' GROUP BY query ORDER BY amount DESC, occurency DESC LIMIT ? ;");
-			$this->functions->database->execute($amount);
-			
-			if ( $this->functions->database->num_rows() > 0 ) {
-				$cloud = array();
-				$data = array(); $this->functions->database->bind_assoc($data);
-				while( $this->functions->database->fetch() ) {
-					$cloud[$data['query']] = $data['amount'];
-				}
-				
-				$renderer->doc .= $this->functions->_get_cloud($cloud);
-			} else {
-				$renderer->doc .= "No search queries found.";
-			}
-			
+            $renderer->nocache();
+            if ( empty($amount) ) $amount = 10;
+
+            if ( !$this->functions =& plugin_load('helper', 'searchlogger') ) { return false; }
+            $this->functions->init_database();
+            $table = $this->functions->database->_escapeParameter($this->getConf('DBTableName'));
+            $this->functions->database->prepare("SELECT query, SUM(occurency) AS occurency, COUNT(ID) AS amount FROM `$table` WHERE NOT query='' GROUP BY query ORDER BY amount DESC, occurency DESC LIMIT ? ;");
+            $this->functions->database->execute($amount);
+
+            if ( $this->functions->database->num_rows() > 0 ) {
+                $cloud = array();
+                $data = array(); $this->functions->database->bind_assoc($data);
+                while( $this->functions->database->fetch() ) {
+                    $cloud[$data['query']] = $data['amount'];
+                }
+
+                $renderer->doc .= $this->functions->_get_cloud($cloud);
+            } else {
+                $renderer->doc .= "No search queries found.";
+            }
+
             return true;
         }
         return false;
